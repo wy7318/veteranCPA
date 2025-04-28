@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply text-gray-800 font-sans bg-white;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold text-navy-900;
+  }
+}
+
+@layer components {
+  .container-custom {
+    @apply container mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .btn-primary {
+    @apply bg-gold-500 hover:bg-gold-600 text-navy-900 font-medium py-2 px-6 rounded-md transition-all duration-300 inline-block;
+  }
+  
+  .btn-secondary {
+    @apply bg-navy-800 hover:bg-navy-900 text-white font-medium py-2 px-6 rounded-md transition-all duration-300 inline-block;
+  }
+  
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold mb-4 text-navy-900 opacity-0 transition-all duration-500;
+  }
+  
+  .section-subtitle {
+    @apply text-xl text-gray-600 mb-12 max-w-3xl mx-auto opacity-0 transition-all duration-500;
+  }
+  
+  .nav-link {
+    @apply text-gray-700 hover:text-navy-800 font-medium transition-colors duration-200;
+  }
+  
+  .nav-link.active {
+    @apply text-navy-800 font-semibold;
+  }
+  
+  .service-card {
+    @apply bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-100 opacity-0 transition-all duration-500;
+  }
+  
+  .industry-card {
+    @apply p-5 rounded-lg flex flex-col items-center text-center transition-all duration-300 hover:shadow-md opacity-0 transition-all duration-500;
+  }
+
+  .animate-on-scroll {
+    @apply opacity-0 translate-y-4 transition-all duration-700;
+  }
+
+  .animate-on-scroll.is-visible {
+    @apply opacity-100 translate-y-0;
+  }
+
+  .luxury-card {
+    @apply relative overflow-hidden bg-white rounded-xl shadow-lg transition-all duration-500;
+    background-image: linear-gradient(to right bottom, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.95));
+    backdrop-filter: blur(10px);
+  }
+
+  .luxury-card::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-gold-100/30 to-navy-100/30 opacity-0 transition-opacity duration-500;
+  }
+
+  .luxury-card:hover::before {
+    @apply opacity-100;
+  }
+
+  .luxury-heading {
+    @apply relative inline-block;
+  }
+
+  .luxury-heading::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-1/4 h-0.5 bg-gold-500 transition-all duration-500;
+  }
+
+  .luxury-heading:hover::after {
+    @apply w-full;
+  }
+
+  .luxury-image {
+    @apply relative overflow-hidden;
+  }
+
+  .luxury-image::after {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity duration-500;
+  }
+
+  .luxury-image:hover::after {
+    @apply opacity-100;
+  }
+}
