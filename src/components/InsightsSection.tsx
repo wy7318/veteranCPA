@@ -50,13 +50,8 @@ const InsightsSection: React.FC = () => {
               <div className="h-3 bg-gold-500"></div>
               <div className="p-6">
                 <h3 className="text-xl font-semibold mb-3 text-navy-800">{topic.title}</h3>
-                <p className="text-gray-600 mb-4 line-clamp-3">{topic.description}</p>
-                <a href="/services" className="text-navy-800 font-medium hover:text-gold-600 transition-colors duration-300 inline-flex items-center">
-                  Read More
-                  <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                  </svg>
-                </a>
+                <p className="text-gray-600 mb-6 flex-grow">{topic.description}</p>
+
               </div>
             </div>
           ))}
@@ -73,3 +68,12 @@ const InsightsSection: React.FC = () => {
 };
 
 export default InsightsSection;
+
+
+
+
+
+
+
+
+

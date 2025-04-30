@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
       <div className="container-custom">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           <div className="mb-8 md:mb-0">
-            <Logo color="white" />
+            <Logo variant="light" />
             <p className="mt-4 text-gray-300 leading-relaxed">
               Since 2016, VETERAN has been dedicated to advising small business owners with personalized service and expert financial guidance.
             </p>
@@ -25,14 +25,14 @@ const Footer: React.FC = () => {
               </a>
             </div>
           </div>
-          
+
           <div>
             <h3 className="text-lg font-semibold mb-4 text-white">Quick Links</h3>
             <ul className="space-y-3">
               {navItems.map((item) => (
                 <li key={item.name}>
-                  <a 
-                    href={item.path} 
+                  <a
+                    href={item.path}
                     className="text-gray-300 hover:text-gold-500 transition-colors duration-300 flex items-center"
                   >
                     <ArrowRight size={16} className="mr-2" />
@@ -42,7 +42,7 @@ const Footer: React.FC = () => {
               ))}
             </ul>
           </div>
-          
+
           <div>
             <h3 className="text-lg font-semibold mb-4 text-white">Our Services</h3>
             <ul className="space-y-3">
@@ -72,7 +72,7 @@ const Footer: React.FC = () => {
               </li>
             </ul>
           </div>
-          
+
           <div>
             <h3 className="text-lg font-semibold mb-4 text-white">Contact Info</h3>
             <ul className="space-y-4">
@@ -90,16 +90,26 @@ const Footer: React.FC = () => {
               </li>
               <li className="flex items-center">
                 <Mail size={20} className="text-gold-500 mr-3 flex-shrink-0" />
-                <a href="mailto:info@veterancpa.com" className="text-gray-300 hover:text-gold-500 transition-colors duration-300">
-                  info@veterancpa.com
+                <a href="mailto:vataxcpa@gmail.com" className="text-gray-300 hover:text-gold-500 transition-colors duration-300">
+                  vataxcpa@gmail.com
                 </a>
               </li>
             </ul>
           </div>
         </div>
-        
+
         <div className="pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
-          <p>&copy; {new Date().getFullYear()} Veteran CPA. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Veteran CPA. All rights reserved. Designed by{' '}
+            <a
+              href="https://www.sumisubi.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-blue-400"
+            >
+              Sumiland Design
+            </a>
+
+          </p>
         </div>
       </div>
     </footer>

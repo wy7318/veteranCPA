@@ -140,4 +140,19 @@ export const insightTopics: InsightTopic[] = [
     title: 'Interest Expense Deduction Limitations',
     description: 'The TCJA introduced limitations on the deductibility of business interest expenses. Understanding how these limitations apply, particularly for businesses with high debt loads, can be key to minimizing taxable income.',
   },
+  {
+    id: 4,
+    title: 'Tax Implications of Business Losses',
+    description: 'Businesses experiencing financial setbacks need to be aware of how tax laws allow them to carry forward losses to offset future profits. Additionally, knowing the interaction with carrybacks and carryforwards can help reduce future tax liability.'
+  },
+  {
+    id: 5,
+    title: 'Independent Contractor vs. Employee Classification',
+    description: 'Properly classifying workers as employees or independent contractors is vital for tax compliance. The IRS has tightened enforcement, and improper classification can result in severe penalties. Keeping up with IRS guidelines and court rulings is crucial.'
+  },
+  {
+    id: 6,
+    title: 'Section 199A Qualified Business Income Deduction',
+    description: 'The Section 199A deduction allows pass-through entities to deduct a percentage of their qualified business income, but this benefit has many nuances. Understanding eligibility requirements and limits for this deduction is critical for tax savings.'
+  },
 ];

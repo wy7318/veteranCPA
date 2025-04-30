@@ -104,6 +104,7 @@ const ContactSection: React.FC = () => {
           description: formState.message,
           status: 'New',
           lead_source: 'web',
+          created_by: '9754b84d-c65c-45b8-8f51-a59a9a25edcd',
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         }]);
@@ -164,8 +165,8 @@ const ContactSection: React.FC = () => {
                   <Mail className="text-gold-500 mr-4 mt-1" size={20} />
                   <div>
                     <h4 className="font-medium text-navy-800">Email</h4>
-                    <a href="mailto:info@veterancpa.com" className="text-gray-600 hover:text-navy-800 transition-colors duration-300">
-                      info@veterancpa.com
+                    <a href="mailto:vataxcpa@gmail.com" className="text-gray-600 hover:text-navy-800 transition-colors duration-300">
+                      vataxcpa@gmail.com
                     </a>
                   </div>
                 </div>

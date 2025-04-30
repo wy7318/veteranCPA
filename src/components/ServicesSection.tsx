@@ -1,143 +1,284 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { services } from '../data';
-import { BarChart, Briefcase, PiggyBank, LineChart, ChevronDown } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { BarChart, Briefcase, PiggyBank, LineChart, ChevronRight } from 'lucide-react';
 
-const iconMap: { [key: string]: React.ReactNode } = {
-  BarChart: <BarChart size={40} className="text-gold-500" />,
-  Briefcase: <Briefcase size={40} className="text-gold-500" />,
-  PiggyBank: <PiggyBank size={40} className="text-gold-500" />,
-  LineChart: <LineChart size={40} className="text-gold-500" />,
+
+// Simple, hardcoded services data to eliminate any data loading issues
+const SERVICES_DATA = [
+  {
+    id: 1,
+    title: "Tax Planning & Preparation",
+    description: "Strategic tax planning and accurate preparation to minimize liabilities and ensure compliance with current regulations.",
+    icon: "BarChart",
+    color: "bg-blue-500"
+  },
+  {
+    id: 2,
+    title: "Business Accounting",
+    description: "Comprehensive accounting services to help your business maintain accurate financial records and make informed decisions.",
+    icon: "Briefcase",
+    color: "bg-emerald-500"
+  },
+  {
+    id: 3,
+    title: "Financial Planning",
+    description: "Holistic financial planning to help you achieve your short and long-term goals with confidence and clarity.",
+    icon: "PiggyBank",
+    color: "bg-amber-500"
+  },
+  {
+    id: 4,
+    title: "Audit & Assurance",
+    description: "Independent audit and assurance services to enhance the reliability and credibility of your financial information.",
+    icon: "LineChart",
+    color: "bg-rose-500"
+  }
+];
+
+// Simple icon mapping
+const getIcon = (iconName) => {
+  switch (iconName) {
+    case 'BarChart': return <BarChart size={24} />;
+    case 'Briefcase': return <Briefcase size={24} />;
+    case 'PiggyBank': return <PiggyBank size={24} />;
+    case 'LineChart': return <LineChart size={24} />;
+    default: return <Briefcase size={24} />;
+  }
 };
 
-interface ServiceCardProps {
-  service: {
-    id: number;
-    title: string;
-    description: string;
-    icon: string;
-  };
-  isOpen: boolean;
-  onToggle: () => void;
-  transitionDelay: string;
-}
+// Simple debug panel to show component state
+const DebugPanel = ({ isVisible, services }) => {
+  if (!isVisible) return null;
 
-const ServiceCard: React.FC<ServiceCardProps> = ({ service, isOpen, onToggle, transitionDelay }) => {
   return (
-    <div 
-      className="animate-on-scroll bg-white rounded-lg shadow-sm overflow-hidden transition-all duration-300"
-      style={{ transitionDelay }}
-    >
-      <button
-        onClick={onToggle}
-        className="w-full px-6 py-4 flex items-center justify-between bg-gray-50 hover:bg-gray-100 transition-colors duration-200"
-      >
-        <div className="flex items-center gap-4">
-          <div className="flex-shrink-0">
-            {iconMap[service.icon]}
-          </div>
-          <h3 className="text-xl font-semibold text-navy-800 text-left">{service.title}</h3>
-        </div>
-        <ChevronDown 
-          size={24} 
-          className={`text-navy-800 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
-        />
+    <div style={{
+      position: 'fixed',
+      bottom: '20px',
+      right: '20px',
+      background: 'rgba(255, 0, 0, 0.1)',
+      border: '2px solid red',
+      padding: '10px',
+      zIndex: 9999,
+      maxHeight: '300px',
+      overflow: 'auto'
+    }}>
+      <h3>Debug Info:</h3>
+      <div>Services count: {services.length}</div>
+      <div>First service: {services[0]?.title || 'None'}</div>
+      <button onClick={() => console.log('Debug services:', services)}>
+        Log Services to Console
       </button>
-      
-      <div 
-        className={`transition-all duration-300 ${
-          isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
-        } overflow-hidden`}
-      >
-        <div className="p-6 border-t border-gray-100">
-          <p className="text-gray-600 leading-relaxed">{service.description}</p>
-          
-          <div className="mt-4 space-y-2">
-            <h4 className="font-medium text-navy-800">Key Features:</h4>
-            <ul className="space-y-2">
-              <li className="flex items-start gap-2 text-gray-600">
-                <span className="text-gold-500">•</span>
-                Comprehensive analysis and planning
-              </li>
-              <li className="flex items-start gap-2 text-gray-600">
-                <span className="text-gold-500">•</span>
-                Regular strategy reviews and updates
-              </li>
-              <li className="flex items-start gap-2 text-gray-600">
-                <span className="text-gold-500">•</span>
-                Expert guidance and support
-              </li>
-            </ul>
-          </div>
+    </div>
+  );
+};
+
+// Simplified service card with inline styles for debugging
+const SimpleServiceCard = ({ service }) => {
+  // Using inline styles for maximum compatibility
+  return (
+    <div style={{
+      border: '1px solid #e5e7eb',
+      borderRadius: '8px',
+      padding: '20px',
+      margin: '10px 0',
+      background: 'white',
+      boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
+        <div style={{
+          width: '48px',
+          height: '48px',
+          borderRadius: '50%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: service.color === 'bg-blue-500' ? '#3b82f6' :
+            service.color === 'bg-emerald-500' ? '#10b981' :
+              service.color === 'bg-amber-500' ? '#f59e0b' :
+                service.color === 'bg-rose-500' ? '#f43f5e' : '#3b82f6',
+          color: 'white',
+          marginRight: '16px'
+        }}>
+          {getIcon(service.icon)}
         </div>
+        <h3 style={{ fontSize: '18px', fontWeight: 'bold', margin: 0 }}>{service.title}</h3>
+      </div>
+
+      <p style={{ color: '#4b5563', lineHeight: '1.5' }}>{service.description}</p>
+
+      <div style={{ marginTop: '16px' }}>
+        <div style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '8px' }}>Key Features:</div>
+        <ul style={{ paddingLeft: '20px' }}>
+          <li style={{ marginBottom: '4px' }}>Strategic planning and analysis</li>
+          <li style={{ marginBottom: '4px' }}>Expert guidance and support</li>
+          <li style={{ marginBottom: '4px' }}>Regular reviews and updates</li>
+        </ul>
+      </div>
+
+      <div style={{
+        marginTop: '16px',
+        display: 'flex',
+        justifyContent: 'flex-end'
+      }}>
+        <a href="/services" className="text-amber-600 font-medium inline-flex items-center group-hover:translate-x-1 transition-transform">
+          <button style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            padding: '8px 16px',
+            background: service.color === 'bg-blue-500' ? '#3b82f6' :
+              service.color === 'bg-emerald-500' ? '#10b981' :
+                service.color === 'bg-amber-500' ? '#f59e0b' :
+                  service.color === 'bg-rose-500' ? '#f43f5e' : '#3b82f6',
+            color: 'white',
+            borderRadius: '4px',
+            border: 'none',
+            cursor: 'pointer'
+          }}>
+            Learn More
+            <ChevronRight size={16} style={{ marginLeft: '4px' }} />
+          </button>
+          </a>
       </div>
     </div>
   );
 };
 
-const ServicesSection: React.FC = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [openService, setOpenService] = useState<number | null>(0);
-  
+// Super simplified services section focusing on guaranteed rendering
+const ServicesSection = () => {
+  // Force component to update
+  const [, forceUpdate] = useState({});
+  const [isDebugVisible, setIsDebugVisible] = useState(true);
+  const [mounted, setMounted] = useState(false);
+
+  // Log on mount and force update after a delay
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const elements = entry.target.querySelectorAll('.animate-on-scroll');
-            elements.forEach((el) => {
-              el.classList.add('is-visible');
-            });
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-    
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-    
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
+    console.log("ServicesSection mounted");
+
+    // Force update after a short delay
+    const timer = setTimeout(() => {
+      setMounted(true);
+      forceUpdate({});
+      console.log("ServicesSection forced update");
+    }, 500);
+
+    return () => clearTimeout(timer);
   }, []);
 
-  const handleToggle = (serviceId: number) => {
-    setOpenService(openService === serviceId ? null : serviceId);
-  };
+  // Add keyboard shortcut to toggle debug mode - press 'd'
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'd') {
+        setIsDebugVisible(prev => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  console.log("Rendering ServicesSection", { mounted, serviceCount: SERVICES_DATA.length });
 
   return (
-    <section ref={sectionRef} className="py-16 md:py-24 bg-gray-50" id="services">
-      <div className="container-custom">
-        <div className="text-center mb-16">
-          <h2 className="section-title animate-on-scroll">Our Services</h2>
-          <p className="section-subtitle animate-on-scroll">
-            Comprehensive financial solutions tailored to your unique needs.
-          </p>
+    <section
+      id="services-section"
+      style={{
+        padding: '40px 0',
+        background: '#f9fafb',
+        minHeight: '300px'
+      }}
+    >
+      {/* Header section */}
+      <div style={{ textAlign: 'center', marginBottom: '40px', padding: '0 20px' }}>
+        <div style={{
+          display: 'inline-block',
+          padding: '6px 12px',
+          background: '#eff6ff',
+          color: '#3b82f6',
+          borderRadius: '999px',
+          fontSize: '14px',
+          fontWeight: '500',
+          marginBottom: '16px'
+        }}>
+          Professional Financial Services
         </div>
-        
-        <div className="space-y-4 mb-12">
-          {services.map((service, index) => (
-            <ServiceCard
-              key={service.id}
-              service={service}
-              isOpen={openService === service.id}
-              onToggle={() => handleToggle(service.id)}
-              transitionDelay={`${index * 0.1}s`}
-            />
+
+        <h2 style={{
+          fontSize: '32px',
+          fontWeight: 'bold',
+          color: '#111827',
+          marginBottom: '16px'
+        }}>
+          Comprehensive Solutions for Your
+          <div style={{
+            background: 'linear-gradient(to right, #3b82f6, #4f46e5)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            display: 'inline-block',
+            marginLeft: '8px'
+          }}>
+            Financial Success
+          </div>
+        </h2>
+
+        <p style={{
+          fontSize: '16px',
+          color: '#4b5563',
+          maxWidth: '800px',
+          margin: '0 auto',
+          lineHeight: '1.6'
+        }}>
+          Our expert team delivers tailored financial strategies to help you navigate
+          complex challenges and achieve your long-term goals.
+        </p>
+      </div>
+
+      {/* Container for service cards */}
+      <div style={{
+        maxWidth: '1200px',
+        margin: '0 auto',
+        padding: '0 20px'
+      }}>
+        {/* Service cards */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+          gap: '20px'
+        }}>
+          {SERVICES_DATA.map(service => (
+            <SimpleServiceCard key={service.id} service={service} />
           ))}
         </div>
-        
-        <div className="mt-12 text-center">
-          <a href="/services" className="btn-primary animate-on-scroll">
-            View All Services
+
+        {/* CTA button */}
+        <div style={{
+          marginTop: '40px',
+          textAlign: 'center'
+        }}>
+          <a
+            href="/services"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              padding: '12px 24px',
+              background: 'linear-gradient(to right, #3b82f6, #4f46e5)',
+              color: 'white',
+              borderRadius: '999px',
+              textDecoration: 'none',
+              fontWeight: '500',
+              boxShadow: '0 4px 6px rgba(59, 130, 246, 0.25)',
+              transition: 'all 0.3s ease'
+            }}
+          >
+            Explore All Services
+            <ChevronRight size={18} style={{ marginLeft: '8px' }} />
           </a>
         </div>
       </div>
+
+
     </section>
   );
 };
 
 export default ServicesSection;
+
+// export default ServicesSection;

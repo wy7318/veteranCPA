@@ -145,8 +145,8 @@ const ContactPage: React.FC = () => {
                     <Mail className="text-gold-500 mr-4 mt-1" size={24} />
                     <div>
                       <h4 className="font-medium text-navy-800 text-lg mb-1">Email</h4>
-                      <a href="mailto:info@veterancpa.com" className="text-gray-600 hover:text-navy-800 transition-colors duration-300">
-                        info@veterancpa.com
+                      <a href="mailto:vataxcpa@gmail.com" className="text-gray-600 hover:text-navy-800 transition-colors duration-300">
+                        vataxcpa@gmail.com
                       </a>
                     </div>
                   </div>

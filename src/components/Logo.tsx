@@ -1,17 +1,18 @@
 import React from 'react';
-import { Award } from 'lucide-react';
 
 interface LogoProps {
-  color?: 'navy' | 'white';
+  variant?: 'default' | 'light';
 }
 
-const Logo: React.FC<LogoProps> = ({ color = 'navy' }) => {
-  const textColor = color === 'white' ? 'text-white' : 'text-navy-800';
-  
+const Logo: React.FC<LogoProps> = ({ variant = 'default' }) => {
   return (
     <a href="/" className="flex items-center">
-      <Award className="text-gold-500 mr-2" size={28} />
-      <span className={`text-xl font-bold ${textColor}`}>VETERAN <span className="text-gold-500">CPA</span></span>
+      <img
+        src="https://jaytpfztifhtzcruxguj.supabase.co/storage/v1/object/public/organization-logos/logos/MainLogo.png"
+        alt="Veteran CPA Logo"
+        className={`h-12 ${variant === 'light' ? 'brightness-0 invert' : ''}`}
+        style={{ filter: variant === 'light' ? 'brightness(0) invert(1)' : 'none' }}
+      />
     </a>
   );
 };
