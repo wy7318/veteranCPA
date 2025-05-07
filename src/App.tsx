@@ -7,9 +7,19 @@ import ServicesPage from './pages/ServicesPage';
 import ContactPage from './pages/ContactPage';
 import NewsPage from './pages/NewsPage';
 import NewsDetailPage from './pages/NewsDetailPage';
+import LoadingPage from './components/LoadingPage';
 
 function App() {
+  const [loading, setLoading] = React.useState(true);
   const [currentPath, setCurrentPath] = React.useState(window.location.pathname);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   React.useEffect(() => {
     const handleLocationChange = () => {
@@ -47,13 +57,16 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <main className="flex-grow">
-        {renderPage()}
-      </main>
-      <Footer />
-    </div>
+    <>
+      {loading && <LoadingPage />}
+      <div className={`flex flex-col min-h-screen ${loading ? 'hidden' : 'animate-fadeIn'}`}>
+        <Header />
+        <main className="flex-grow">
+          {renderPage()}
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 }
 

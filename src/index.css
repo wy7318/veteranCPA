@@ -2,6 +2,175 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* Loading animation styles */
+/* .loading-icons-container {
+  width: 160px;
+  height: 160px;
+  position: relative;
+}
+
+.loading-icon-orbit {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+
+.loading-icon {
+  transform-origin: center;
+  animation: orbit 4s linear infinite;
+  animation-delay: var(--rotation-delay, 0s);
+}
+
+@keyframes orbit {
+  0% {
+    transform: rotate(0deg) translateX(60px) rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg) translateX(60px) rotate(-360deg);
+  }
+}
+
+.loading-bar-container {
+  width: 280px;
+  height: 6px;
+  background-color: #e5e7eb;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.loading-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #10b981, #6366f1);
+  background-size: 300% 100%;
+  animation: loading-bar-animation 2s linear infinite, slide 2.5s ease-in-out;
+  width: 100%;
+}
+
+@keyframes loading-bar-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes slide {
+  0% {
+    width: 0%;
+  }
+
+  100% {
+    width: 100%;
+  }
+}
+
+.animate-fadeOut {
+  animation: fadeOut 0.5s ease-in-out forwards;
+  animation-delay: 2s;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+} */
+
+
+
+/* Loading animation styles */
+.loading-lines {
+  display: flex;
+  gap: 8px;
+}
+
+.line {
+  width: 3px;
+  height: 40px;
+  background: linear-gradient(180deg, #3b82f6, #10b981, #6366f1);
+  animation: loading-line 1s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+.line:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.line:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.line:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+.line:nth-child(5) {
+  animation-delay: 0.4s;
+}
+
+@keyframes loading-line {
+  0% {
+    transform: scaleY(0.3);
+  }
+
+  50% {
+    transform: scaleY(1);
+  }
+
+  100% {
+    transform: scaleY(0.3);
+  }
+}
+
+/* Page transition animations */
+.animate-fadeOut {
+  animation: fadeOut 0.5s ease-in-out forwards;
+  animation-delay: 2s;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;

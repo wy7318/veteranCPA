@@ -4,8 +4,9 @@ import { Quote } from 'lucide-react';
 
 const TestimonialsSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -20,11 +21,11 @@ const TestimonialsSection: React.FC = () => {
       },
       { threshold: 0.1 }
     );
-    
+
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
     }
-    
+
     return () => {
       if (sectionRef.current) {
         observer.unobserve(sectionRef.current);
@@ -32,71 +33,128 @@ const TestimonialsSection: React.FC = () => {
     };
   }, []);
 
-  const nextTestimonial = () => {
-    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-  };
+  useEffect(() => {
+    if (!scrollContainerRef.current || isPaused || testimonials.length < 2) return;
 
-  const prevTestimonial = () => {
-    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
+    const container = scrollContainerRef.current;
+
+    if (!container.hasChildNodes()) {
+      const initialTestimonials = [...testimonials];
+      initialTestimonials.forEach((testimonial) => {
+        const testimonialElement = createTestimonialElement(testimonial);
+        container.appendChild(testimonialElement);
+      });
+    }
+
+    const cardWidth = container.firstChild ? (container.firstChild as HTMLElement).offsetWidth + 24 : 0;
+    if (cardWidth === 0) return;
+
+    let scrollPosition = 0;
+    let lastAddedId = -1;
+
+    const scroll = () => {
+      if (!scrollContainerRef.current || isPaused) return;
+
+      scrollPosition += 0.5;
+      container.style.transform = `translateX(-${scrollPosition}px)`;
+
+      if (scrollPosition >= cardWidth) {
+        const firstCard = container.firstChild as HTMLElement;
+        const firstCardId = parseInt(firstCard.dataset.id || "-1");
+        container.removeChild(firstCard);
+
+        scrollPosition = scrollPosition - cardWidth;
+        container.style.transform = `translateX(-${scrollPosition}px)`;
+
+        const lastCard = container.lastChild as HTMLElement;
+        const lastCardId = parseInt(lastCard.dataset.id || "-1");
+
+        const availableTestimonials = testimonials.filter(t => t.id !== lastCardId);
+
+        const nextTestimonial = availableTestimonials.length > 0
+          ? availableTestimonials[Math.floor(Math.random() * availableTestimonials.length)]
+          : testimonials[0];
+
+        const newCard = createTestimonialElement(nextTestimonial);
+        container.appendChild(newCard);
+
+        lastAddedId = nextTestimonial.id;
+      }
+
+      requestAnimationFrame(scroll);
+    };
+
+    function createTestimonialElement(testimonial: any) {
+      const div = document.createElement('div');
+      div.className = 'testimonial-card flex-shrink-0 w-80 md:w-96';
+      div.dataset.id = testimonial.id.toString();
+
+      div.innerHTML = `
+        <div class="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-100 h-full flex flex-col hover:border-pink-500 transition-all duration-300">
+          <div class="flex items-start mb-4">
+            <div class="text-gray-900 flex-shrink-0 mr-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"></path>
+                <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"></path>
+              </svg>
+            </div>
+            <p class="text-gray-600 italic text-base leading-relaxed">
+              "${testimonial.content}"
+            </p>
+          </div>
+          
+          <div class="mt-auto pt-4 border-t border-gray-100">
+            <p class="font-semibold text-gray-900">${testimonial.name}</p>
+            <p class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500 text-sm">${testimonial.title}</p>
+          </div>
+        </div>
+      `;
+
+      return div;
+    }
+
+    const animationId = requestAnimationFrame(scroll);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+    };
+  }, [isPaused]);
 
   return (
-    <section ref={sectionRef} className="py-16 md:py-24 bg-white" id="testimonials">
+    <section
+      ref={sectionRef}
+      className="py-12 md:py-16 bg-white overflow-hidden"
+      id="testimonials"
+    >
       <div className="container-custom">
-        <div className="text-center mb-16">
-          <h2 className="section-title animate-on-scroll">Client Testimonials</h2>
-          <p className="section-subtitle animate-on-scroll">
-            Hear from our valued clients about their experience working with us.
-          </p>
+        <div className="text-center mb-8">
+          <h2 className="text-3xl md:text-4xl font-bold mb-2 animate-on-scroll">What Our Clients Say</h2>
+          <div className="w-16 h-1 bg-gradient-to-r from-purple-600 to-pink-500 mx-auto mb-2"></div>
         </div>
-        
-        <div className="relative max-w-4xl mx-auto">
-          <div className="animate-on-scroll">
-            <div className="bg-gray-50 p-8 md:p-12 rounded-lg shadow-sm relative">
-              <Quote className="text-gold-500 absolute top-6 left-6 opacity-20" size={48} />
-              
-              <div className="relative z-10">
-                <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                  {testimonials[currentIndex].content}
-                </p>
-                
-                <div>
-                  <p className="font-semibold text-navy-800">{testimonials[currentIndex].name}</p>
-                  <p className="text-gold-600">{testimonials[currentIndex].title}</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="flex justify-center mt-8 gap-2">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentIndex(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentIndex ? 'bg-gold-500 scale-125' : 'bg-gray-300'
-                  }`}
-                  aria-label={`Go to testimonial ${index + 1}`}
-                />
-              ))}
-            </div>
-            
-            <div className="flex justify-center mt-6 gap-4">
-              <button
-                onClick={prevTestimonial}
-                className="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200"
-                aria-label="Previous testimonial"
-              >
-                ←
-              </button>
-              <button
-                onClick={nextTestimonial}
-                className="p-2 rounded-full hover:bg-gray-100 transition-colors duration-200"
-                aria-label="Next testimonial"
-              >
-                →
-              </button>
+
+        <div className="relative max-w-full animate-on-scroll">
+          <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-white to-transparent z-10"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-12 bg-gradient-to-l from-white to-transparent z-10"></div>
+
+          <div
+            className="overflow-hidden py-4"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
+            <div
+              ref={scrollContainerRef}
+              className="flex space-x-6"
+              style={{
+                willChange: 'transform',
+                width: 'fit-content'
+              }}
+            >
             </div>
           </div>
+        </div>
+
+        <div className="text-center mt-6 text-sm text-gray-500 animate-on-scroll">
+          <p>Hover over testimonials to pause scrolling</p>
         </div>
       </div>
     </section>
