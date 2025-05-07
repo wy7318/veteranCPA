@@ -93,6 +93,7 @@
 // export default Hero;
 
 
+
 import React from 'react';
 
 const Hero = () => {
@@ -110,30 +111,30 @@ const Hero = () => {
         ></video>
       </div>
 
-      <div className="absolute inset-0 flex items-center justify-center z-10">
-        <div className="text-center px-4">
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-light">
-            <div className="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-pink-200 leading-tight mb-6">
+      <div className="absolute inset-0 flex items-start justify-center z-10 pt-24 md:pt-32 lg:pt-40">
+        <div className="text-center px-4 max-w-7xl">
+          <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-9xl font-light">
+            <div className="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-pink-200 leading-tight mb-4 md:mb-6">
               Strategic Tax.
             </div>
             <div className="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-pink-200 leading-tight">
               Planning & Advisory
             </div>
           </h1>
-          <p className="text-3xl md:text-4xl lg:text-5xl text-gray-400 font-light mt-12">
+          <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-400 font-light mt-8 md:mt-12">
             Optimize Your Financial Future
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-12">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 md:mt-12 px-4 sm:px-0">
             <a
               href="#contact"
-              className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white text-lg font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl w-full sm:w-auto"
+              className="px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white text-base sm:text-lg font-medium rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl w-full sm:w-auto"
             >
               Schedule Consultation
             </a>
             <a
               href="#services"
-              className="px-8 py-4 border-2 border-purple-300 hover:border-pink-200 text-purple-300 hover:text-pink-200 text-lg font-medium rounded-lg transition-all duration-300 w-full sm:w-auto"
+              className="px-6 sm:px-8 py-3 sm:py-4 border-2 border-purple-300 hover:border-pink-200 text-purple-300 hover:text-pink-200 text-base sm:text-lg font-medium rounded-lg transition-all duration-300 w-full sm:w-auto"
             >
               Explore Services
             </a>
