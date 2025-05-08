@@ -1,7 +1,35 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { BarChart, Briefcase, PiggyBank, LineChart } from 'lucide-react';
 
 const ServicesSection = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const elements = entry.target.querySelectorAll('.animate-on-scroll');
+            elements.forEach((el) => {
+              el.classList.add('is-visible');
+            });
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
   const SERVICES_DATA = [
     {
       id: 1,
@@ -33,26 +61,16 @@ const ServicesSection = () => {
     }
   ];
 
-  const features = [
-    "Strategic tax planning to minimize liabilities",
-    "Year-round tax guidance and support",
-    "Tax credit identification and optimization",
-    "Financial statement preparation",
-    "Bookkeeping and reconciliation",
-    "Business performance analysis",
-    "Retirement account optimization"
-  ];
-
   return (
-    <section className="py-20 bg-white text-black">
+    <section ref={sectionRef} className="py-20 bg-white text-black" id="services">
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl font-bold mb-6">
+          <h2 className="text-5xl md:text-6xl font-bold mb-6 animate-on-scroll opacity-0">
             Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500">Services</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-600 to-pink-500 mx-auto mb-8"></div>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <div className="w-24 h-1 bg-gradient-to-r from-purple-600 to-pink-500 mx-auto mb-8 animate-on-scroll opacity-0" style={{ transitionDelay: '0.2s' }}></div>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto animate-on-scroll opacity-0" style={{ transitionDelay: '0.3s' }}>
             Comprehensive financial solutions designed to optimize your tax strategy,
             business operations, and long-term financial health
           </p>
@@ -60,8 +78,12 @@ const ServicesSection = () => {
 
         {/* Services Layout - More compact, no large whitespaces */}
         <div className="grid md:grid-cols-2 gap-16 mb-16">
-          {SERVICES_DATA.map((service) => (
-            <div key={service.id} className="flex flex-col h-full">
+          {SERVICES_DATA.map((service, index) => (
+            <div
+              key={service.id}
+              className="flex flex-col h-full animate-on-scroll opacity-0"
+              style={{ transitionDelay: `${0.2 * (index + 1)}s` }}
+            >
               <div className="flex items-center mb-6">
                 <div className="p-3 rounded-lg bg-gradient-to-r from-purple-100 to-pink-50 mr-4">
                   {service.icon}
@@ -83,8 +105,8 @@ const ServicesSection = () => {
           ))}
         </div>
 
-        {/* Additional service highlights section to fill space */}
-        <div className="bg-gray-50 rounded-lg p-8 border border-gray-100 mt-16">
+        {/* Additional service highlights section */}
+        <div className="bg-gray-50 rounded-lg p-8 border border-gray-100 mt-16 animate-on-scroll opacity-0" style={{ transitionDelay: '0.6s' }}>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="col-span-1">
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Why Choose Our Services</h3>
@@ -103,7 +125,11 @@ const ServicesSection = () => {
                   "Proactive Planning",
                   "Ongoing Support"
                 ].map((item, index) => (
-                  <div key={index} className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+                  <div
+                    key={index}
+                    className="bg-white p-4 rounded-lg shadow-sm border border-gray-100 animate-on-scroll opacity-0"
+                    style={{ transitionDelay: `${0.7 + (index * 0.1)}s` }}
+                  >
                     <div className="w-3 h-3 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full mb-3"></div>
                     <div className="font-medium text-gray-900">{item}</div>
                   </div>
